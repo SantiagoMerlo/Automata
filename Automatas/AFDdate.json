@@ -1,15 +1,16 @@
-
-//Automa Finito, acepta numero impara de 1
 [
   {
     "Lenguajes": [0,1],
     "N_Estados": 2,
     "Inicio":0,
     "EstadoFinal": [1],
-    "Transiciones": {
-      "Transicion":[0,1,1],// DE estado Q0 POR lenguaje "1" A estado final 1
-      "Transicion":[0,0,0],// DE estado Q0 POR lenguaje "0" A estado final Q0
-      "Transicion":[1,0,1],// DE estado Q1 POR lenguaje "0" A estado final Q1
-      "Transicion":[1,1,0]}// DE estado Q1 POR lenguaje "1" A estado final Q0
+    "Transiciones": [
+      { "Transicion": [0,0,0]},
+      { "Transicion":[0,1,1]},
+      { "Transicion":[1,0,1]},
+      { "Transicion":[1,1,0]}
+    ]
   }
 ]
+
+
