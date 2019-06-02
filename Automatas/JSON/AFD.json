@@ -1,0 +1,15 @@
+{
+    "Lenguajes": [0,1],
+    "N_Estados": 2,
+    "Inicio":[0],
+    "EstadoFinal": [1],
+    "Transiciones": [
+      { "De": 0, "Por": 0, "A": 0},
+      { "De": 0, "Por": 1, "A": 1},
+      { "De": 1, "Por": 0, "A": 1},
+      { "De": 1, "Por": 1, "A": 0}
+    ]
+}
+
+
+
