@@ -1,5 +1,5 @@
-document.querySelector('#Cargar').addEventListener('click',AñadirDatos);
-//ducument.querySelector('#Subir').addEventListener('click',Calcular);
+document.querySelector('#Cargar').addEventListener('click',AnadirDatos);
+document.querySelector('#Ejecutar').addEventListener('click',Calcular);
 
 
 //Variagles que van a guardar todos los estados
@@ -12,10 +12,11 @@ var final= []; //Estados finales
 var Desde = []; //estado desde donde parte
 var Por = [];   //Lenguaje que genera la transicion
 var Hacia = []; //Estado final
+var Tabla = [];
 
 
 //LEE EL JSON y guarda las variables
-function AñadirDatos() {
+function AnadirDatos() {
 
     const xhttp = new XMLHttpRequest();
 
@@ -30,25 +31,26 @@ function AñadirDatos() {
 
             estados = datos.N_Estados;
 
-            for (let i = 0; i < datos.Lenguajes.length; i++) {
-                lenguajes.push(datos.Lenguajes[i]);
+            // esta intruccion recorre el arreglo y pone en I el valor del arreglo
+            for (let i of datos.Lenguajes) {
+                lenguajes.push(i);
             }
 
             console.log("Lenguajes = " + lenguajes);
 
-            for (let i = 0; i < datos.Inicio.length; i++) {
-                inicio.push(datos.Inicio[i]);
+            for (let i of datos.Inicio) {
+                inicio.push(i);
             }
 
             console.log("Estados Iniciales = " + inicio);
 
-            for (let i = 0; i < datos.EstadoFinal.length; i++) {
-                final.push(datos.EstadoFinal[i]);
+            for (let i of datos.EstadoFinal) {
+                final.push(i);
             }
 
             console.log("Estados Finales = " + final);
 
-            for (let i = 0; i < datos.Transiciones.length; i++) {
+            for (let i in datos.Transiciones) {
                 Desde.push(datos.Transiciones[i].De);
                 Por.push(datos.Transiciones[i].Por);
                 Hacia.push(datos.Transiciones[i].A);
@@ -60,15 +62,14 @@ function AñadirDatos() {
         }
 
         //tabla de transicion creacion
-        var Tabla = [];
         for (i = 0; i < estados; i++) {
             Tabla[i] = new Array(lenguajes.length);
         }
 
         for (let i = 0; i < (estados * (lenguajes.length)); i++) {
-            let a = Desde[i];
-            let b = Por[i];
-            Tabla[a][b] = Hacia[i];
+                let a = Desde[i];
+                let b = Por[i];
+                Tabla[a][b] = Hacia[i];
         }
         console.log(Tabla)
 
@@ -77,7 +78,17 @@ function AñadirDatos() {
 
 
 function Calcular() {
-
+    var Palabra = [0,1,0,1,0,0,0,1,2];
+    let a = Tabla[inicio][Palabra[0]];
+    for (let i of Palabra){
+        a=Tabla[a][i];
+    }
+    for(let i of final){
+        if (a == i ){
+            return console.log("La palabra es aceptada");
+        }
+    }
+        console.log("La palabra no es aceptada");
 }
 
 function drawState() {

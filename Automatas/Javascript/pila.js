@@ -1,6 +1,15 @@
 document.querySelector('#Cargar').addEventListener('click',AnadirDatos);
 document.querySelector('#Ejecutar').addEventListener('click',Calcular);
 
+
+/**
+ * DUDA: Si no esta especificada la transicion significa que no importa?
+ *  Es decir, se representan todos los casos o solo lo que de salida al automata????
+ *  En caso de que importe pero no requiere
+ *  el ejemplo es un automata que acepta 1ªn y elimina con 0ªn
+ *  si el codigo es 1 1 1 0 1 0 0 0 esta bien?
+ */
+
 //Creacion de clase pilas
 class Stack{
     constructor(){
@@ -17,30 +26,35 @@ class Stack{
         return this.stack[this.stack.length - 1];
     }
     size(){
-        return this.stack.length;
+        return (this.stack.length);
+    }
+    esVacio(){
+        if (this.stack.length === 1) return true; //Esta modificada para que el valor vacio sea Landa
     }
     print(){
         console.log(this.stack);
     }
 }
 
-//Variables para trabajar
+//Variables globales
 var lenguajes = [];
 var estados;
-var inicio = [];
+var inicio;
 var final = [];
-//varaibles para hacer transicion
 var pila = new Stack();
+pila.push("Landa");
 var Si = [];
 var Desde = [];
 var Por = [];
 var Hacia = [];
 var Accion = [];
+var Tabla = [];
+
 
 
 
 function AnadirDatos() {
-/*
+
     const xhttp = new XMLHttpRequest();
 
     xhttp.open('GET', '../JSON/PILA.json', true);  //asincro el true
@@ -49,68 +63,98 @@ function AnadirDatos() {
     xhttp.onreadystatechange = function () {
 
         if (this.readyState == 4 && this.status == 200) {
-*/
 
-       let datos = {
-  Lenguajes: [0,1],
-  N_Estados: 4,
-  Inicio:[0],
-  EstadoFinal: [3],
-  Transiciones: [
-    { Si: "Landa",De: 0, Por: 1, A: 1, Accion: "Push"},
-    { Si: 1 ,De: 1, Por: 1, A: 1,Accion: "Push"},
-    { Si: 1, De: 1, Por: 0, A: 2, Accion: "Pop"},
-    { Si: 1, De: 2, Por: 0, A: 2, Accion: "Pop"},
-    { Si: "Landa", De: 2, Por: 0, A: 3, Accion: "Nothing"}
-  ]
-}
-            
+
+            let datos= JSON.parse(this.responseText);
+
             estados = datos.N_Estados;
 
-            for (let i = 0; i < datos.Lenguajes.length; i++) {
-                lenguajes.push(datos.Lenguajes[i]);
+            for (let i of datos.Lenguajes) {
+                lenguajes.push(i);
             }
 
             console.log("Lenguajes = " + lenguajes);
 
-            for (let i = 0; i < datos.Inicio.length; i++) {
-                inicio.push(datos.Inicio[i]);
+            for (let i of datos.Inicio) {
+                inicio = i;
             }
 
-            console.log("Estados Iniciales = " + inicio);
+            console.log("Estado Inicial = " + inicio);
 
-            for (let i = 0; i < datos.EstadoFinal.length; i++) {
-                final.push(datos.EstadoFinal[i]);
+            for (let i of datos.EstadoFinal) {
+                final.push(i);
             }
 
             console.log("Estados Finales = " + final);
-            
-             for (let i = 0; i < datos.Transiciones.length; i++) {
+
+            for (let i in datos.Transiciones) {
                 Si.push(datos.Transiciones[i].Si);
                 Desde.push(datos.Transiciones[i].De);
                 Por.push(datos.Transiciones[i].Por);
                 Hacia.push(datos.Transiciones[i].A);
                 Accion.push(datos.Transiciones[i].Accion);
             }
-            
-            /*
-        }else{
-            console.log("ERROR EN LA CARGA DEL JSON")
         }
-        */
+
+        //cantidad de transiciones posibles
+        for (let i in Si) {
+            Tabla[i] = new Array(5);
+        }
+        for(let i in Tabla)
+        {
+            Tabla[i][0] = Desde[i];
+            Tabla[i][1] = Por[i];
+            Tabla[i][2] = Si[i];
+            Tabla[i][3] = Accion[i];
+            Tabla[i][4] = Hacia[i];
+        }
+        console.log(Tabla)
+    }
+
 }
+
 function Calcular(){
-  console.log('se ejecuto')
+
   var Palabra = [1,1,1,0,0,0];
-  for(let i in Palabra) {
-      console.log(i);
-      pila.print();
-      console.log("Accion= " +Accion[i] )
-      if(Accion[i]=== "Push")
-        pila.push(Por[i]);
-      if (Accion[i] === "Pop")
-        pila.pop();
+  let a = inicio;
+  for(let i of Palabra)
+  {
+     for(let j in Tabla){
+         if(Tabla[j][0]==a){
+             if(Tabla[j][1] == i){
+                 if(Tabla[j][2] == pila.peek()){
+                     switch (Tabla[j][3]){
+                         case "Push":
+                             pila.push(i);
+                             a = Tabla[j][4];
+                             break;
+                         case "Pop":
+                             pila.pop();
+                             a = Tabla[j][4];
+                             break;
+                         case "Nothing":
+                             a = Tabla[j][4];
+                     }
+
+                 }
+             }
+
+         }
+     }
   }
-  
-  
+  if (pila.peek() == "Landa")
+  {
+      for(let i of final) {
+          if (a == i) {
+              return console.log("La palabra es aceptada");
+          }
+      }
+  }else{
+      console.log("Palabra no aceptada");
+  }
+
 }
+
+  
+  
+
