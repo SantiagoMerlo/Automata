@@ -1,7 +1,7 @@
 {
   "Lenguajes": [0,1],
-  "N_Estados": 4,
-  "Inicio":[0],
+  "Estados": [0,1,2,3],
+  "Inicio": 0,
   "EstadoFinal": [3],
   "Transiciones": [
     { "Si": "Landa","De": 0, "Por": 1, "A": 1, "Accion": "Push"},

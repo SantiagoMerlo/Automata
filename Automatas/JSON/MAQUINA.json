@@ -1,0 +1,15 @@
+{
+  "Lenguajes": [0,1],
+  "Estados": [0,1,2],
+  "Inicio_Estado": 0,
+  "Inicio_Cabezal": 0,
+  "EstadoFinal": [2],
+  "Transiciones": [
+    { "Estoy": 0, "Cabezal": 0, "Movimiento": "Derecha", "Poner": 0, "voy": 0},
+    { "Estoy": 0, "Cabezal": 1, "Movimiento": "Derecha", "Poner": 1, "voy": 1},
+    { "Estoy": 1, "Cabezal": 1, "Movimiento": "Derecha", "Poner": 1, "voy": 0},
+    { "Estoy": 1, "Cabezal": 0, "Movimiento": "Derecha", "Poner": 1, "voy": 1},
+    { "Estoy": 0, "Cabezal": "Vacio", "Movimiento": "Derecha", "Poner": "Vacio", "voy": 2},
+    { "Estoy": 1, "Cabezal": "Vacio", "Movimiento": "Derecha", "Poner": "Vacio", "voy": 2}
+  ]
+}

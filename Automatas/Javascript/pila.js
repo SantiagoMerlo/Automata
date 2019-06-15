@@ -1,16 +1,7 @@
 document.querySelector('#Cargar').addEventListener('click',AnadirDatos);
-document.querySelector('#Ejecutar').addEventListener('click',Calcular);
 
 
-/**
- * DUDA: Si no esta especificada la transicion significa que no importa?
- *  Es decir, se representan todos los casos o solo lo que de salida al automata????
- *  En caso de que importe pero no requiere
- *  el ejemplo es un automata que acepta 1ªn y elimina con 0ªn
- *  si el codigo es 1 1 1 0 1 0 0 0 esta bien?
- */
-
-//Creacion de clase pilas
+//Creacion de clase pilas modificada
 class Stack{
     constructor(){
         this.stack = [];
@@ -49,6 +40,19 @@ var Por = [];
 var Hacia = [];
 var Accion = [];
 var Tabla = [];
+var Palabra = []; //111000 json de ejemplo acepta misma cantidad de unos que ceros
+
+function sub(){
+
+    Palabra.length = 0;
+    let temp = document.getElementById("prod").value;
+    for (let i of temp)
+    {
+        Palabra.push(i);
+    }
+    console.log(Palabra);
+    Calcular();
+}
 
 
 
@@ -67,25 +71,17 @@ function AnadirDatos() {
 
             let datos= JSON.parse(this.responseText);
 
-            estados = datos.N_Estados;
+            estados = datos.Estados.length;
 
             for (let i of datos.Lenguajes) {
                 lenguajes.push(i);
             }
 
-            console.log("Lenguajes = " + lenguajes);
-
-            for (let i of datos.Inicio) {
-                inicio = i;
-            }
-
-            console.log("Estado Inicial = " + inicio);
+            inicio = datos.Inicio;
 
             for (let i of datos.EstadoFinal) {
                 final.push(i);
             }
-
-            console.log("Estados Finales = " + final);
 
             for (let i in datos.Transiciones) {
                 Si.push(datos.Transiciones[i].Si);
@@ -96,7 +92,7 @@ function AnadirDatos() {
             }
         }
 
-        //cantidad de transiciones posibles
+        //Creacion de matriz para guardar las transiciones
         for (let i in Si) {
             Tabla[i] = new Array(5);
         }
@@ -108,49 +104,52 @@ function AnadirDatos() {
             Tabla[i][3] = Accion[i];
             Tabla[i][4] = Hacia[i];
         }
-        console.log(Tabla)
     }
 
 }
 
 function Calcular(){
 
-  var Palabra = [1,1,1,0,0,0];
-  let a = inicio;
+  let a = inicio; //A representa el estado donde se encuentra
+  let existe_estado; //Controlador si el estado esta definido
   for(let i of Palabra)
   {
+     existe_estado = false;
      for(let j in Tabla){
-         if(Tabla[j][0]==a){
-             if(Tabla[j][1] == i){
-                 if(Tabla[j][2] == pila.peek()){
+         if(Tabla[j][0]==a){ //Desde
+             if(Tabla[j][1] == i){ //Por
+                 if(Tabla[j][2] == pila.peek()){ //Si se cumple esto
                      switch (Tabla[j][3]){
                          case "Push":
                              pila.push(i);
                              a = Tabla[j][4];
+                             existe_estado = true;
                              break;
                          case "Pop":
                              pila.pop();
                              a = Tabla[j][4];
+                             existe_estado = true;
                              break;
                          case "Nothing":
                              a = Tabla[j][4];
+                             existe_estado = true;
+                             break;
                      }
-
                  }
              }
-
          }
      }
+     if (!existe_estado) return console.log("Palabra no aceptada");
   }
   if (pila.peek() == "Landa")
   {
       for(let i of final) {
           if (a == i) {
+              console.log(a);
               return console.log("La palabra es aceptada");
           }
       }
-  }else{
-      console.log("Palabra no aceptada");
+      return console.log("Palabra no aceptada");
   }
 
 }
