@@ -68,6 +68,7 @@ function AnadirDatos() {
             }
             console.log("Desde = " + Desde + " por= " + Por + " Hacia= " + Hacia);
 
+
         }else {
             console.log("ERROR EN LA CARGA DEL JSON")
         }
@@ -129,12 +130,13 @@ function Pertenece() {
         return false;
 }
 
-
-function drawState() {
+function drawState(x) {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
+    var PosX = 10;
+    var Posy = 10;
     ctx.beginPath();
-    ctx.arc(50, 50, 15, 0, 2 * Math.PI); //Dibuja un circulo
+    ctx.arc(x*50, 50, 15, 0, 2 * Math.PI); //Dibuja un circulo
     ctx.strokeStyle = "#000000";
     ctx.stroke();
 }
@@ -151,4 +153,5 @@ function drawJump() {
     ctx.strokeStyle = "#000000";
     ctx.stroke();
 }
+
 

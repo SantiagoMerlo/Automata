@@ -2,32 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="CSS/Index.css">
+    <link type="text/css" rel="stylesheet" href="CSS/Css.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Lenguajes Formales</title>
 </head>
-<body class="principal">
+<style type="text/css">
+    body {
+        background-image: url("../Imagenes/FondoGeneral.png");
+        background-size: 100%;
+        margin-top: 6%;
+    }
+    .derecha{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+    .centro{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+    .izquierda{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+</style>
+<body>
 <div class="container">
-    <H1>Lenguajes Formales y Automatas</H1>
+    <H1><u>Lenguajes Formales y Automatas</u></H1>
+    <h3><u>Trabajo Practico Evaluativo</u></h3>
     <br>
-    <h3>Trabajo Practico Evaluativo</h3>
     <br>
-    <br>
+    <div class="derecha">
+        <div class="card" style="width: 18rem;">
+            <img src="../Imagenes/Determi.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Automata Finito Desterminista</h5>
+                <p class="card-text"></p>
+                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='AFD.html'">Ir</button>
+            </div>
+        </div>
+    </div>
+    <div class="centro">
+        <div class="card" style="width: 18rem;">
+            <img src="../Imagenes/PilaA.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Automata de Pila</h5>
+                <p class="card-text"></p>
+                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='AP.html'">Ir</button>
+            </div>
+        </div>
+    </div>
+    <div class="izquierda">
+        <div class="card" style="width: 18rem;">
+            <img src="../Imagenes/MaquinaA.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Maquina de Turing</h5>
+                <p class="card-text"></p>
+                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='MT.html'">Ir</button>
+            </div>
+        </div>
+    </div>
 </div>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='AFD.html'">Automata Finito Desterminista</button>
-</div>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='AP.html'">Automata de Pila</button>
-</div>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='MT.html'">Maquina de Turing</button>
-</div>
-
-
         <!-- JQUERRY -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

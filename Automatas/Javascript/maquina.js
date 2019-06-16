@@ -54,6 +54,14 @@ var Izquierda = new Stack();
 
 function AñadirDatos() {
 
+    //Si se recarga la funcion con uno nuevo json vaciamos los datos viejos
+    Desde.length = 0;
+    Cabezal.length = 0;
+    Movimiento.length = 0;
+    Poner.length = 0;
+    Hacia.length = 0;
+    Tabla.length = 0;
+
     const xhttp = new XMLHttpRequest();
 
     xhttp.open('GET', '../JSON/MAQUINA.json', true);  //asincro el true
@@ -78,27 +86,26 @@ function AñadirDatos() {
             }
 
             for (let i in datos.Transiciones) {
-               Desde.push(datos.Transiciones[i].Estoy);
-               Cabezal.push(datos.Transiciones[i].Cabezal);
-               Movimiento.push(datos.Transiciones[i].Movimiento);
-               Poner.push(datos.Transiciones[i].Poner);
-               Hacia.push(datos.Transiciones[i].voy);
+                Desde.push(datos.Transiciones[i].Estoy);
+                Cabezal.push(datos.Transiciones[i].Cabezal);
+                Movimiento.push(datos.Transiciones[i].Movimiento);
+                Poner.push(datos.Transiciones[i].Poner);
+                Hacia.push(datos.Transiciones[i].voy);
             }
-            console.log("Datos cargados");
+            for (let i in Desde) {
+                Tabla[i] = new Array(5);
+            }
+
+            for (let i in Tabla) {
+                Tabla[i][0] = Desde[i];
+                Tabla[i][1] = Cabezal[i];
+                Tabla[i][2] = Movimiento[i];
+                Tabla[i][3] = Poner[i];
+                Tabla[i][4] = Hacia[i];
+            }
+            console.log(Tabla);
         }
     }
-    for (let i in Desde) {
-        Tabla[i] = new Array(5);
-    }
-    for(let i in Tabla)
-    {
-        Tabla[i][0] = Desde[i];
-        Tabla[i][1] = Cabezal[i];
-        Tabla[i][2] = Movimiento[i];
-        Tabla[i][3] = Poner[i];
-        Tabla[i][4] = Hacia[i];
-    }
-    console.log(Tabla);
 }
 
 function Calcular() {

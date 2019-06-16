@@ -6,34 +6,48 @@
     <title>Lenguajes Formales</title>
 </head>
 <body>
+<style type="text/css">
+    body {
+        background-image: url("../Imagenes/FondoGeneral.png");
+        background-size: 100%;
+        margin-top: 7%;
+    }
+    .derecha{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+    .izquierda{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+</style>
 <div class="container">
-    <H1>Automata Finito Determinista</H1>
+    <H1><u>Automata Finito Determinista</u></H1>
     <br>
-</div>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" id="Cargar" >Cargar JSON</button>
-</div>
-<br>
-<div class="container">
-    <h5>Ingrese Palabra</h5>
-    <form name="form" action="" method="get">
-        <input type="text" name="prod" id="prod">
-    </form>
     <br>
-    <input type="submit" name="sub" class="btn btn-primary btn-lg" value="Enviar" onclick="sub()">
+    <div class="derecha">
+        <br>
+        <button type="button" class="btn btn-primary btn-lg" id="Cargar" >Cargar JSON</button>
+        <br>
+        <br>
+        <h5>Ingrese Palabra</h5>
+        <form name="form" action="" method="get">
+            <input type="text" name="prod" id="prod">
+        </form>
+        <br>
+        <input type="submit" name="sub" class="btn btn-primary btn-lg" value="Enviar" onclick="sub()">
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary btn-lg" onclick="location.href='Index.html'">Volver</button>
+    </div>
+    <div class="izquierda">
+        <canvas id="myCanvas">
+
+        </canvas>
+    </div>
 </div>
-<br>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='Index.html'">Volver</button>
-</div>
-
-<canvas id="myCanvas">
-
-
-</canvas>
-
 
 
 

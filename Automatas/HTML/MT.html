@@ -6,29 +6,43 @@
     <title>Lenguajes Formales</title>
 </head>
 <body>
+<style type="text/css">
+    body {
+        background-image: url("../Imagenes/FondoGeneral.png");
+        background-size: 100%;
+        margin-top: 7%;
+    }
+    .derecha{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+    .izquierda{
+        width: auto;
+        margin: 3%;
+        float: left;
+    }
+</style>
 <div class="container">
-    <H1>Maquina de Turing</H1>
+    <H1><u>Maquina de Turing</u></H1>
     <br>
-</div>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" id="Cargar" >Cargar JSON</button>
-</div>
-<br>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" id="Ejecutar">Ejecutar</button>
-</div>
-<br>
-<br>
-<div class="container">
-    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='Index.html'">Volver</button>
+    <br>
+    <div class="derecha">
+        <br>
+        <button type="button" class="btn btn-primary btn-lg" id="Cargar" >Cargar JSON</button>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary btn-lg" id="Ejecutar" >Ejecutar</button>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary btn-lg" onclick="location.href='Index.html'">Volver</button>
+    </div>
+    <div class="izquierda">
+        <canvas id="myCanvas">
+        </canvas>
+    </div>
 </div>
 
-<canvas id="myCanvas">
-
-
-</canvas>
 
 
 
