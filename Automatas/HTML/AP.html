@@ -22,6 +22,10 @@
         margin: 3%;
         float: left;
     }
+    .debajo{
+        bottom: 10%;
+        position: absolute;
+    }
 </style>
 <div class="container">
     <H1><u>Automata de Pila</u></H1>
@@ -38,14 +42,18 @@
         </form>
         <br>
         <input type="submit" name="sub" class="btn btn-primary btn-lg" value="Enviar" onclick="sub()">
-        <br>
-        <br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="location.href='Index.html'">Volver</button>
+        <div class="debajo">
+            <button  type="button" class="btn btn-primary btn-lg" onclick="location.href='Index.html'">Volver</button>
+        </div>
+
     </div>
     <div class="izquierda">
-        <canvas id="myCanvas">
-        </canvas>
+        <div class="container">
+            <canvas id="myCanvas" width="750" height="400" style="border:4px solid #000000; background-color: #0080FF">
+            </canvas>
+        </div>
     </div>
+
 </div>
 
 

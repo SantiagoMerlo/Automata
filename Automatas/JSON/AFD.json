@@ -1,18 +1,18 @@
 {
-    "Lenguajes": [0,1,2],
+    "Lenguajes": [0,1,"a"],
     "Estados": [0,1,2],
     "Inicio":0,
     "EstadoFinal": [2],
     "Transiciones": [
       { "De": 0, "Por": 0, "A": 0},
       { "De": 0, "Por": 1, "A": 1},
-      { "De": 0, "Por": 2, "A": 0},
+      { "De": 0, "Por":"a", "A": 0},
       { "De": 1, "Por": 1, "A": 0},
       { "De": 1, "Por": 0, "A": 1},
-      { "De": 1, "Por": 2, "A": 2},
+      { "De": 1, "Por": "a", "A": 2},
       { "De": 2, "Por": 0, "A": 2},
       { "De": 2, "Por": 1, "A": 2},
-      { "De": 2, "Por": 2, "A": 2}
+      { "De": 2, "Por": "a", "A": 2}
 
     ]
 }
