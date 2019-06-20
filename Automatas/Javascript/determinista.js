@@ -12,7 +12,7 @@ let Desde = []; //estado desde donde parte
 let referencia = [];
 let Por = [];   //Lenguaje que genera la transicion
 let Hacia = []; //Estado final
-let Tabla = [];
+var Tabla = [];
 
 let Palabra = [];
 //010100012
@@ -27,7 +27,6 @@ function sub(){
     }
     Calcular();
 }
-
 
 //LEE EL JSON y guarda las variables
 function AnadirDatos() {
@@ -69,7 +68,7 @@ function AnadirDatos() {
                         Por.push(j);
                 }
             }
-
+        draw_respuesta(2);
 
         }else {
             console.log("ERROR EN LA CARGA DEL JSON")
@@ -94,46 +93,45 @@ function AnadirDatos() {
 
 function Calcular() {
 
-    let a;
-    let aux;
-    let tex;
-
     if( alfabeto.length === 0){
-        tex = 1;
-        draw_respuesta(tex);
+       return draw_respuesta(1);
     }
     if(Pertenece())
     {
-        tex = 0;
-        draw_respuesta(tex);
-    }
-    for(let j in alfabeto) {
-        clearcanvas();
-        if(Palabra[0] == alfabeto[j]){
-            a = Tabla[inicio][j];
-            drawState(inicio,a,j);
-        }
+        return draw_respuesta(0);
     }
 
-    for (let i of Palabra) {
-        for(let j in alfabeto) {
-            if(i == alfabeto[j]){
-                aux=a;
-                a = Tabla[aux][j];
-                setInterval(function () {
-                    clearcanvas();
-                    drawState(aux, a, j)
-                },1000);
+    var a = inicio;
+    var aux;
+    var cont = 0;
+
+    function analisis() {
+        clearcanvas();
+        let paso = Palabra[cont];
+        for (let j in alfabeto) {
+            if (paso == alfabeto[j]) {
+                paso=j;
+                console.log(paso);
             }
         }
-    }
-
-    for(let i of final){
-        if (a === i ){
-            return console.log("La palabra es aceptada");
+        aux = a;
+        a = Tabla[aux][paso];
+        clearcanvas();
+        drawState(aux, a, paso,cont);
+        console.log("Desde " + aux + " Por: " + paso + " Hasta " + a);
+        cont++;
+        if (cont > (Palabra.length-1) ) {
+            clearcanvas();
+            for(let i of final){
+                if (a === i ) draw_respuesta(3);
+                else draw_respuesta(4);
+            }
+            clearInterval(inter);
         }
     }
-    return console.log("La palabra no es aceptada");
+
+    var inter = setInterval(analisis,2500);
+
 }
 
 /**         Funcion Pertenece
@@ -146,7 +144,7 @@ function Pertenece() {
     for(let i of Palabra){
         let prueba = true;
         for(let j of alfabeto){
-            if (i === j){
+            if (i == j){
                 prueba = false;
             }
         }
@@ -157,9 +155,14 @@ function Pertenece() {
     return false;
 }
 
-function drawState(estadoA,estadoB,paso) {
+
+function drawState(estadoA,estadoB,paso,numero) {
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
+
+    ctx.font = "20px Times New Roman";
+    ctx.fillText("Transicion numero: "+ numero,20,20);
+
     if (estadoA===estadoB)
     {
         let PosX = 375;
@@ -167,18 +170,56 @@ function drawState(estadoA,estadoB,paso) {
         ctx.beginPath();
         ctx.arc(PosX, Posy, 60, 0, 2 * Math.PI); //Dibuja un circulo
         ctx.strokeStyle = "#000000";
-
         ctx.stroke();
         ctx.font = "30px Arial";
         ctx.fillText("Q"+estadoA,PosX-22,Posy+10);
+        ctx.beginPath();
+        ctx.lineTo(PosX+60,Posy);
+        ctx.lineTo(PosX+120,Posy-60);
+        ctx.lineTo(PosX+120,Posy-120);
+        ctx.lineTo(PosX+60,Posy-180);
+        ctx.lineTo(PosX,Posy-120);
+        ctx.lineTo(PosX,Posy-60);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.lineTo(PosX-10,Posy-75);
+        ctx.lineTo(PosX+10,Posy-75);
+        ctx.lineTo(PosX,Posy-60);
+        ctx.fill();
+        ctx.font = "30px Arial";
+        ctx.fillText(paso,PosX+50,Posy-80);
 
     }else{
-        let PosX = 200;
+        let PosX = 150;
         let Posy = 200;
+        let PosXB = 550;
         ctx.beginPath();
         ctx.arc(PosX, Posy, 60, 0, 2 * Math.PI); //Dibuja un circulo
         ctx.strokeStyle = "#000000";
         ctx.stroke();
+        ctx.font = "30px Arial";
+        ctx.fillText("Q"+estadoA,PosX-22,Posy+10);
+
+            ctx.beginPath();
+            ctx.lineTo(PosX+60,Posy);
+            ctx.lineTo(PosXB-10,Posy);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.lineTo(PosXB-30,Posy+10);
+            ctx.lineTo(PosXB-30,Posy-10);
+            ctx.lineTo(PosXB-10,Posy);
+            ctx.fill();
+            ctx.font = "30px Arial";
+            ctx.fillText( paso ,375 ,Posy-15);
+
+            ctx.beginPath();
+            ctx.arc(PosXB+50, Posy, 60, 0, 2 * Math.PI);
+            ctx.strokeStyle = "#000000";
+            ctx.stroke();
+            ctx.font = "30px Arial";
+            ctx.fillText("Q"+estadoB,PosXB+25,Posy+10);
+
+
     }
 
 
@@ -191,14 +232,25 @@ function draw_respuesta(tex) {
     if(tex === 0){
         ctx.fillText("Error: La palabra ingresada no pertenece al alfabeto", 15, 200);
     }
-    if (tex === 1){
-        ctx.fillText("Error: No se cargo el JSON", 15, 200);
+    else if (tex === 1){
+        ctx.fillText("Error: No se cargo el JSON", 200, 200);
     }
-
+    else if (tex === 2){
+        ctx.fillText("Json cargado!", 260,200)
+    }
+    else if (tex === 3){
+        ctx.fillText("Palabra aceptada", 260,200)
+    }
+    else if (tex === 4){
+        ctx.fillText("Palabra no aceptada", 260,200)
+    }
+    else{
+        ctx.fillText("Error 404", 260,200)
+    }
 }
 
 function clearcanvas() {
     let canvas = document.getElementById("myCanvas");
     let contexto = canvas.getContext("2d");
-    contexto.clearRect(0, 0, canvas.width, canvas.height);
+    contexto.clearRect(0, 0, 750, 400);
 }

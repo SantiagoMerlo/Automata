@@ -42,8 +42,9 @@ var Accion = [];
 var Tabla = [];
 var Palabra = []; //111000 json de ejemplo acepta misma cantidad de unos que ceros
 
-function sub(){
 
+
+function sub(){
     Palabra.length = 0;
     let temp = document.getElementById("prod").value;
     for (let i of temp)
@@ -90,6 +91,7 @@ function AnadirDatos() {
                 Hacia.push(datos.Transiciones[i].A);
                 Accion.push(datos.Transiciones[i].Accion);
             }
+            draw_respuesta(2);
         }
 
         //Creacion de matriz para guardar las transiciones
@@ -110,9 +112,13 @@ function AnadirDatos() {
 
 function Calcular(){
 
-  let a = inicio; //A representa el estado donde se encuentra
+    if(lenguajes.length == 0){
+        return draw_respuesta(0);
+    }
+
+  var a = inicio; //A representa el estado donde se encuentra
   let existe_estado; //Controlador si el estado esta definido
-  for(let i of Palabra)
+  for(var i of Palabra)
   {
      existe_estado = false;
      for(let j in Tabla){
@@ -121,17 +127,29 @@ function Calcular(){
                  if(Tabla[j][2] == pila.peek()){ //Si se cumple esto
                      switch (Tabla[j][3]){
                          case "Push":
-                             pila.push(i);
                              a = Tabla[j][4];
+                             setTimeout(function () {
+                                 drawState(Tabla[j][0],a,Tabla[j][1],pila.peek(),i);
+                                 console.log(Tabla[j][0]+" "+a+" "+Tabla[j][1]+" "+" "+pila.peek()+" "+i);
+                                 pila.push(i);
+                             },2000);
                              existe_estado = true;
                              break;
                          case "Pop":
-                             pila.pop();
-                             a = Tabla[j][4];
+                             setTimeout(function () {
+                                 drawState(Tabla[j][0],a,Tabla[j][1],pila.peek(),"Landa");
+                                 console.log(Tabla[j][0]+" "+a+" "+Tabla[j][1]+" "+" "+pila.peek()+" "+i);
+                                 pila.pop();
+                                 a = Tabla[j][4];
+                             },2000);
                              existe_estado = true;
                              break;
                          case "Nothing":
-                             a = Tabla[j][4];
+                             setTimeout(function () {
+                                 drawState(Tabla[j][0],a,Tabla[j][1],pila.peek()," ");
+                                 console.log(Tabla[j][0]+" "+a+" "+Tabla[j][1]+" "+" "+pila.peek()+" "+i);
+                                 a = Tabla[j][4];
+                             },2000);
                              existe_estado = true;
                              break;
                      }
@@ -145,13 +163,99 @@ function Calcular(){
   {
       for(let i of final) {
           if (a == i) {
-              console.log(a);
               return console.log("La palabra es aceptada");
           }
       }
       return console.log("Palabra no aceptada");
   }
 
+}
+function drawState(estadoA,estadoB,paso,valorA,valorD) {
+    clearcanvas();
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    if (estadoA===estadoB)
+    {
+        let PosX = 375;
+        let Posy = 200;
+        ctx.beginPath();
+        ctx.arc(PosX, Posy, 60, 0, 2 * Math.PI); //Dibuja un circulo
+        ctx.strokeStyle = "#000000";
+        ctx.stroke();
+        ctx.font = "30px Arial";
+        ctx.fillText("Q"+estadoA,PosX-22,Posy+10);
+        ctx.beginPath();
+        ctx.lineTo(PosX+60,Posy);
+        ctx.lineTo(PosX+120,Posy-60);
+        ctx.lineTo(PosX+120,Posy-120);
+        ctx.lineTo(PosX+60,Posy-180);
+        ctx.lineTo(PosX,Posy-120);
+        ctx.lineTo(PosX,Posy-60);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.lineTo(PosX-10,Posy-75);
+        ctx.lineTo(PosX+10,Posy-75);
+        ctx.lineTo(PosX,Posy-60);
+        ctx.fill();
+        ctx.font = "15px Arial";
+        ctx.fillText(paso+","+valorA+";"+valorA+valorD,PosX+50,Posy-80);
+
+    }else{
+        let PosX = 150;
+        let Posy = 200;
+        let PosXB = 550;
+        ctx.beginPath();
+        ctx.arc(PosX, Posy, 60, 0, 2 * Math.PI);
+        ctx.strokeStyle = "#000000";
+        ctx.stroke();
+        ctx.font = "30px Arial";
+        ctx.fillText("Q"+estadoA,PosX-22,Posy+10);
+
+            ctx.beginPath();
+            ctx.lineTo(PosX+60,Posy);
+            ctx.lineTo(PosXB-10,Posy);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.lineTo(PosXB-30,Posy+10);
+            ctx.lineTo(PosXB-30,Posy-10);
+            ctx.lineTo(PosXB-10,Posy);
+            ctx.fill();
+            ctx.font = "15px Arial";
+            ctx.fillText( paso+","+valorA+";"+valorA+valorD ,275 ,Posy-15);
+
+            ctx.beginPath();
+            ctx.arc(PosXB+50, Posy, 60, 0, 2 * Math.PI);
+            ctx.strokeStyle = "#000000";
+            ctx.stroke();
+            ctx.font = "15px Arial";
+            ctx.fillText("Q"+estadoB,PosXB+25,Posy+10);
+
+
+    }
+
+
+}
+
+function draw_respuesta(tex) {
+    let c = document.getElementById("myCanvas");
+    let ctx = c.getContext("2d");
+    ctx.font = "30px Arial";
+    if(tex === 0){
+        ctx.fillText("Error: La palabra ingresada no pertenece al alfabeto", 15, 200);
+    }
+    if (tex === 1){
+        ctx.fillText("Error: No se cargo el JSON", 200, 200);
+    }
+    if (tex === 2){
+        ctx.fillText("Json cargado!", 260,200)
+    }
+
+}
+
+function clearcanvas() {
+    let canvas = document.getElementById("myCanvas");
+    let contexto = canvas.getContext("2d");
+    contexto.clearRect(0, 0, canvas.width, canvas.height);
 }
 
   
