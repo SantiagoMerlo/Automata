@@ -93,41 +93,47 @@ function AnadirDatos() {
 
 function Calcular() {
 
+    clearcanvas();
+
     if( alfabeto.length === 0){
        return draw_respuesta(1);
     }
-    if(Pertenece())
+    if( Palabra.length === 0){
+        return draw_respuesta(5);
+    }
+    if(!Pertenece())
     {
         return draw_respuesta(0);
     }
 
-    var a = inicio;
+    var a= inicio;
     var aux;
     var cont = 0;
 
     function analisis() {
         clearcanvas();
-        let paso = Palabra[cont];
-        for (let j in alfabeto) {
-            if (paso == alfabeto[j]) {
-                paso=j;
-                console.log(paso);
-            }
-        }
-        aux = a;
-        a = Tabla[aux][paso];
-        clearcanvas();
-        drawState(aux, a, paso,cont);
-        console.log("Desde " + aux + " Por: " + paso + " Hasta " + a);
-        cont++;
+
         if (cont > (Palabra.length-1) ) {
             clearcanvas();
             for(let i of final){
                 if (a === i ) draw_respuesta(3);
                 else draw_respuesta(4);
             }
-            clearInterval(inter);
+            return clearInterval(inter);
         }
+
+
+        let paso = Palabra[cont];
+        for (let j in alfabeto) {
+            if (paso == alfabeto[j]) {
+                paso=j;
+            }
+        }
+        aux = a;
+        a = Tabla[aux][paso];
+        clearcanvas();
+        drawState(aux, a, Palabra[cont] ,cont);
+        cont++;
     }
 
     var inter = setInterval(analisis,2500);
@@ -141,20 +147,45 @@ function Calcular() {
 
 function Pertenece() {
 
-    for(let i of Palabra){
-        let prueba = true;
-        for(let j of alfabeto){
-            if (i == j){
-                prueba = false;
+    for (let i of Palabra) {
+        let prueba = false;
+        for (let j of alfabeto) {
+            if (i == j) {
+                prueba = true;
             }
         }
-        if (prueba){
-            return true;
-        }
+        if (!prueba) return false;
     }
-    return false;
+    return true;
 }
 
+function DrawInicio(estadoInicio) {
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+
+    let PosX = 375;
+    let Posy = 200;
+    ctx.beginPath();
+    for(let i = 0; i<5;i++){
+        ctx.arc(PosX, Posy, 60-i, 0, 2 * Math.PI);
+    }
+    ctx.strokeStyle = "#000000";
+    ctx.stroke();
+    ctx.font = "30px Arial";
+    ctx.fillText("Q"+estadoInicio,PosX-22,Posy+10);
+
+    ctx.beginPath();
+    ctx.lineTo(PosX-120,Posy);
+    ctx.lineTo(PosX-60,Posy);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.lineTo(PosX-70,Posy+10);
+    ctx.lineTo(PosX-70,Posy-10);
+    ctx.lineTo(PosX-60,Posy);
+    ctx.fill();
+    ctx.stroke();
+
+}
 
 function drawState(estadoA,estadoB,paso,numero) {
     let canvas = document.getElementById("myCanvas");
@@ -168,18 +199,25 @@ function drawState(estadoA,estadoB,paso,numero) {
         let PosX = 375;
         let Posy = 200;
         ctx.beginPath();
-        ctx.arc(PosX, Posy, 60, 0, 2 * Math.PI); //Dibuja un circulo
+        for(let i = 0; i<5;i++){
+            ctx.arc(PosX, Posy, 60-i, 0, 2 * Math.PI);
+        }
         ctx.strokeStyle = "#000000";
         ctx.stroke();
         ctx.font = "30px Arial";
         ctx.fillText("Q"+estadoA,PosX-22,Posy+10);
         ctx.beginPath();
-        ctx.lineTo(PosX+60,Posy);
-        ctx.lineTo(PosX+120,Posy-60);
-        ctx.lineTo(PosX+120,Posy-120);
-        ctx.lineTo(PosX+60,Posy-180);
-        ctx.lineTo(PosX,Posy-120);
-        ctx.lineTo(PosX,Posy-60);
+        ctx.lineTo(PosX+60,Posy);       //1
+        ctx.lineTo(PosX+95,Posy-15);   //2
+        ctx.lineTo(PosX+120,Posy-50);   //3
+        ctx.lineTo(PosX+125,Posy-80);   //4
+        ctx.lineTo(PosX+120,Posy-110);   //5
+        ctx.lineTo(PosX+95,Posy-135);  //6
+        ctx.lineTo(PosX+60,Posy-150);   //7
+        ctx.lineTo(PosX+25,Posy-135);   //8
+        ctx.lineTo(PosX,Posy-110);      // 9
+        ctx.lineTo(PosX-5,Posy-80);     //10
+        ctx.lineTo(PosX,Posy-60);       //11
         ctx.stroke();
         ctx.beginPath();
         ctx.lineTo(PosX-10,Posy-75);
@@ -187,42 +225,41 @@ function drawState(estadoA,estadoB,paso,numero) {
         ctx.lineTo(PosX,Posy-60);
         ctx.fill();
         ctx.font = "30px Arial";
-        ctx.fillText(paso,PosX+50,Posy-80);
+        ctx.fillText(paso,PosX+50,Posy-70);
 
     }else{
         let PosX = 150;
         let Posy = 200;
         let PosXB = 550;
         ctx.beginPath();
-        ctx.arc(PosX, Posy, 60, 0, 2 * Math.PI); //Dibuja un circulo
+        for(let i = 0; i<5;i++){
+            ctx.arc(PosX, Posy, 60-i, 0, 2 * Math.PI);
+        }
         ctx.strokeStyle = "#000000";
         ctx.stroke();
         ctx.font = "30px Arial";
         ctx.fillText("Q"+estadoA,PosX-22,Posy+10);
 
-            ctx.beginPath();
-            ctx.lineTo(PosX+60,Posy);
-            ctx.lineTo(PosXB-10,Posy);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.lineTo(PosXB-30,Posy+10);
-            ctx.lineTo(PosXB-30,Posy-10);
-            ctx.lineTo(PosXB-10,Posy);
-            ctx.fill();
-            ctx.font = "30px Arial";
-            ctx.fillText( paso ,375 ,Posy-15);
-
-            ctx.beginPath();
-            ctx.arc(PosXB+50, Posy, 60, 0, 2 * Math.PI);
-            ctx.strokeStyle = "#000000";
-            ctx.stroke();
-            ctx.font = "30px Arial";
-            ctx.fillText("Q"+estadoB,PosXB+25,Posy+10);
-
-
+        ctx.beginPath();
+        ctx.lineTo(PosX+60,Posy);
+        ctx.lineTo(PosXB-10,Posy);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.lineTo(PosXB-30,Posy+10);
+        ctx.lineTo(PosXB-30,Posy-10);
+        ctx.lineTo(PosXB-10,Posy);
+        ctx.fill();
+        ctx.font = "30px Arial";
+        ctx.fillText( paso ,375 ,Posy-15);
+        ctx.beginPath();
+        for(let i = 0; i<5;i++){
+            ctx.arc(PosXB+50, Posy, 60-i, 0, 2 * Math.PI);
+        }
+        ctx.strokeStyle = "#000000";
+        ctx.stroke();
+        ctx.font = "30px Arial";
+        ctx.fillText("Q"+estadoB,PosXB+25,Posy+10);
     }
-
-
 }
 
 function draw_respuesta(tex) {
@@ -236,16 +273,22 @@ function draw_respuesta(tex) {
         ctx.fillText("Error: No se cargo el JSON", 200, 200);
     }
     else if (tex === 2){
-        ctx.fillText("Json cargado!", 260,200)
+        ctx.fillText("Json cargado correctamente!", 10,30);
+        ctx.fillText("Precione 'enviar' para ver las transiciones.", 100,80);
+        ctx.fillText("Estado Inicial:", 100,120);
+        DrawInicio(inicio)
     }
     else if (tex === 3){
-        ctx.fillText("Palabra aceptada", 260,200)
+        ctx.fillText("Palabra aceptada.", 260,200)
     }
     else if (tex === 4){
-        ctx.fillText("Palabra no aceptada", 260,200)
+        ctx.fillText("Palabra no aceptada.", 260,200)
+    }
+    else if(tex === 5){
+        ctx.fillText("Por favor ingrese una plabra.", 200,200)
     }
     else{
-        ctx.fillText("Error 404", 260,200)
+        ctx.fillText("Error 404", 280,200)
     }
 }
 

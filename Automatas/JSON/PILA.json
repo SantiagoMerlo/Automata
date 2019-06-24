@@ -1,13 +1,15 @@
 {
-  "Lenguajes": [0,1],
+  "Lenguajes": [0,1,"a",""],
   "Estados": [0,1,2,3],
   "Inicio": 0,
   "EstadoFinal": [3],
   "Transiciones": [
     { "Si": "Landa","De": 0, "Por": 1, "A": 1, "Accion": "Push"},
+    { "Si": "Landa","De": 0, "Por": 0, "A": 0, "Accion": "Nothing"},
     { "Si": 1 ,"De": 1, "Por": 1, "A": 1,"Accion": "Push"},
+    { "Si": 1, "De": 1, "Por": "a", "A": 1, "Accion": "Nothing"},
     { "Si": 1, "De": 1, "Por": 0, "A": 2, "Accion": "Pop"},
     { "Si": 1, "De": 2, "Por": 0, "A": 2, "Accion": "Pop"},
-    { "Si": "Landa", "De": 2, "Por": 0, "A": 3, "Accion": "Nothing"}
+    { "Si": "Landa", "De": 2, "Por": "", "A": 3, "Accion": "Nothing"}
   ]
 }
