@@ -2,6 +2,8 @@ document.querySelector('#Cargar').addEventListener('click',AnadirDatos);
 
 /**
  *Se tiene que especificar como lenguaje el elemente vacio para reconocerlo en las transiciones
+ * se necesita declarar en el JSON a "Landa" porque va a ser la condicion de salida de la funcion
+ * en caso de ser modificada por otro valor, tenemos que modificar en SUB
  */
 //Creacion de clase pilas modificada
 class Stack{
@@ -55,7 +57,7 @@ function sub(){
     {
         Palabra.push(i);
     }
-    console.log(Palabra);
+    Palabra.push("Landa");
     Calcular();
 }
 

@@ -1,5 +1,5 @@
 {
-  "Lenguajes": [0,1,"a",""],
+  "Lenguajes": [0,1,"a","Landa"],
   "Estados": [0,1,2,3],
   "Inicio": 0,
   "EstadoFinal": [3],
@@ -10,6 +10,6 @@
     { "Si": 1, "De": 1, "Por": "a", "A": 1, "Accion": "Nothing"},
     { "Si": 1, "De": 1, "Por": 0, "A": 2, "Accion": "Pop"},
     { "Si": 1, "De": 2, "Por": 0, "A": 2, "Accion": "Pop"},
-    { "Si": "Landa", "De": 2, "Por": "", "A": 3, "Accion": "Nothing"}
+    { "Si": "Landa", "De": 2, "Por": "Landa", "A": 3, "Accion": "Nothing"}
   ]
 }
